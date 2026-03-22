@@ -8,11 +8,7 @@ export default function AboutSection() {
         <div className="w-16 h-1 rounded-full bg-primary mb-8 scroll-reveal" style={{ transitionDelay: "80ms" }} />
         <div className="glass-card p-8 md:p-10 scroll-reveal glow-border" style={{ transitionDelay: "160ms" }}>
           <p className="text-muted-foreground leading-relaxed text-lg">
-            I'm a passionate developer who loves building modern, performant web applications.
-            With a strong foundation in both front-end and back-end technologies, I strive to
-            create intuitive user experiences backed by clean, maintainable code. When I'm not
-            coding, you'll find me exploring new technologies, contributing to open source, or
-            sharing knowledge with the developer community.
+            Pre-final year B.Tech student in Artificial Intelligence and Data Science at Chettinad College of Engineering & Technology, Karur. I'm seeking opportunities to apply my technical skills, problem-solving ability, and innovation in real-world projects. With hands-on experience in MERN Stack development through my IBM internship, I'm passionate about building impactful applications that solve real problems.
           </p>
         </div>
       </div>
