@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Mail, Phone, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
 
 export default function ContactSection() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // placeholder
     alert("Form submitted! (placeholder)");
   };
 
@@ -19,11 +18,9 @@ export default function ContactSection() {
         <div className="w-16 h-1 rounded-full bg-primary mb-12 scroll-reveal" style={{ transitionDelay: "80ms" }} />
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Info */}
           <div className="space-y-6 scroll-reveal" style={{ transitionDelay: "120ms" }}>
             <p className="text-muted-foreground leading-relaxed">
-              Feel free to reach out for collaborations, freelance work, or just a friendly chat.
-              I'll get back to you as soon as possible.
+              Feel free to reach out for collaborations, internship opportunities, or just a friendly chat. I'll get back to you as soon as possible.
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
@@ -32,7 +29,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Email</p>
-                  <p className="text-sm font-medium">hello@example.com</p>
+                  <p className="text-sm font-medium">kj.kiruthika2006@gmail.com</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -41,13 +38,21 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Phone</p>
-                  <p className="text-sm font-medium">+1 (234) 567-8900</p>
+                  <p className="text-sm font-medium">+91 6383375257</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <MapPin size={18} className="text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Location</p>
+                  <p className="text-sm font-medium">Kattuputhur, Trichy – 621207</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="glass-card p-6 space-y-4 scroll-reveal" style={{ transitionDelay: "200ms" }}>
             <input
               type="text"

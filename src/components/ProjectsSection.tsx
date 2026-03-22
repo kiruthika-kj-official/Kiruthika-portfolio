@@ -2,24 +2,24 @@ import { ExternalLink, Github } from "lucide-react";
 
 const projects = [
   {
-    title: "E-Commerce Platform",
-    description: "A full-featured online store with cart, payments, and admin dashboard.",
-    tech: ["React", "Node.js", "PostgreSQL", "Stripe"],
+    title: "File Upload App",
+    description: "A web application for uploading and managing files with a clean user interface and efficient backend processing.",
+    tech: ["React", "Node.js", "Express", "MongoDB"],
   },
   {
-    title: "Task Management App",
-    description: "Collaborative project management tool with real-time updates and team boards.",
-    tech: ["Next.js", "TypeScript", "Supabase"],
+    title: "Deep Learning Based Healthcare Application",
+    description: "An AI-powered healthcare application leveraging deep learning models for medical data analysis and prediction.",
+    tech: ["Python", "Deep Learning", "TensorFlow"],
   },
   {
-    title: "AI Chat Interface",
-    description: "Modern conversational AI interface with streaming responses and history.",
-    tech: ["React", "OpenAI API", "Tailwind CSS"],
+    title: "Blood Bank Management System",
+    description: "A comprehensive system for managing blood bank operations including donor records, inventory, and distribution tracking.",
+    tech: ["Python", "MySQL", "Flask"],
   },
   {
-    title: "Portfolio CMS",
-    description: "Headless CMS for managing portfolio content with a beautiful admin panel.",
-    tech: ["Remix", "Prisma", "SQLite"],
+    title: "Chatbot",
+    description: "An intelligent conversational chatbot capable of understanding user queries and providing relevant responses.",
+    tech: ["Python", "NLP", "AI"],
   },
 ];
 

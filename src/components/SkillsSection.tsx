@@ -1,19 +1,17 @@
-import { Code2, Database, Layout, Globe, Users, MessageSquare, Lightbulb, Clock } from "lucide-react";
+import { Code2, Database, Layout, BarChart3, Users, MessageSquare, Lightbulb, UsersRound } from "lucide-react";
 
 const techSkills = [
-  { name: "React / Next.js", icon: Code2, level: 90 },
-  { name: "TypeScript", icon: Code2, level: 85 },
-  { name: "Node.js", icon: Globe, level: 80 },
-  { name: "Tailwind CSS", icon: Layout, level: 92 },
-  { name: "Python", icon: Code2, level: 75 },
-  { name: "PostgreSQL", icon: Database, level: 78 },
+  { name: "Python", icon: Code2, level: 85 },
+  { name: "MERN Stack", icon: Layout, level: 80 },
+  { name: "MySQL", icon: Database, level: 75 },
+  { name: "Power BI", icon: BarChart3, level: 60 },
 ];
 
 const softSkills = [
-  { name: "Team Collaboration", icon: Users },
+  { name: "Leadership", icon: Users },
   { name: "Communication", icon: MessageSquare },
   { name: "Problem Solving", icon: Lightbulb },
-  { name: "Time Management", icon: Clock },
+  { name: "Teamwork", icon: UsersRound },
 ];
 
 export default function SkillsSection() {
@@ -25,11 +23,10 @@ export default function SkillsSection() {
         </h2>
         <div className="w-16 h-1 rounded-full bg-primary mb-12 scroll-reveal" style={{ transitionDelay: "80ms" }} />
 
-        {/* Technical */}
         <h3 className="text-xl font-semibold mb-6 scroll-reveal" style={{ transitionDelay: "120ms" }}>
           Technical Skills
         </h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-14">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
           {techSkills.map((skill, i) => (
             <div
               key={skill.name}
@@ -50,7 +47,6 @@ export default function SkillsSection() {
           ))}
         </div>
 
-        {/* Soft */}
         <h3 className="text-xl font-semibold mb-6 scroll-reveal">Soft Skills</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {softSkills.map((skill, i) => (
