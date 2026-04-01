@@ -48,9 +48,9 @@
     /* Custom portfolio tokens */
     --glass: 222 41% 12%;
     --glass-border: 222 30% 22%;
-    --glow: 191 100% 50%;
-    --gradient-start: 191 100% 50%;
-    --gradient-end: 260 100% 65%;
+    --glow: 270 80% 60%;
+    --gradient-start: 270 80% 60%;
+    --gradient-end: 300 80% 65%;
   }
 }
 

@@ -1,5 +1,5 @@
 import { ArrowRight, Download } from "lucide-react";
-import profileImg from "@/assets/profile-placeholder.jpg";
+import profileImg from "@/assets/profile-kiruthika.jpeg";
 
 export default function HeroSection() {
   return (
@@ -24,16 +24,17 @@ export default function HeroSection() {
               View Projects <ArrowRight size={16} />
             </a>
             <a
-              href="#contact"
+              href="/kiruthika_resume.docx"
+              download
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-glass-border text-foreground font-semibold text-sm hover:bg-secondary transition-all duration-200 active:scale-[0.97]"
             >
-              Contact Me <Download size={16} />
+              Download Resume <Download size={16} />
             </a>
           </div>
         </div>
         <div className="flex justify-center md:justify-end">
           <div className="relative">
-            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/40 to-[hsl(260,100%,65%)]/40 blur-lg animate-pulse-glow" />
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/40 to-[hsl(300,80%,65%)]/40 blur-lg animate-pulse-glow" />
             <img
               src={profileImg}
               alt="Kiruthika K"
