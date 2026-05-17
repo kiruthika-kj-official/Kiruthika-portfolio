@@ -2,9 +2,9 @@ import { ExternalLink, Github, Folder } from "lucide-react";
 
 const projects = [
   {
-    title: "File Upload App",
-    description: "A web application for uploading and managing files with a clean user interface and efficient backend processing.",
-    tech: ["React", "Node.js", "Express", "MongoDB"],
+    title: "Neuro AI: Smart Education System",
+    description: "An AI-powered smart education platform that personalizes learning experiences and adapts to each student's needs using intelligent algorithms.",
+    tech: ["React", "Node.js", "AI", "MongoDB"],
   },
   {
     title: "Deep Learning Based Healthcare Application",
