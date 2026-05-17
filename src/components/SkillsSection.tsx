@@ -1,11 +1,13 @@
-import { Code2, Database, Layout, BarChart3, Users, MessageSquare, Lightbulb, UsersRound, Zap } from "lucide-react";
+import { Code2, Database, Layout, BarChart3, Users, MessageSquare, Lightbulb, UsersRound, Zap, Palette, FileText } from "lucide-react";
 import { useState } from "react";
 
 const techSkills = [
   { name: "Python", icon: Code2, level: 85, color: "from-primary to-[hsl(280,90%,65%)]" },
   { name: "MERN Stack", icon: Layout, level: 80, color: "from-[hsl(260,80%,60%)] to-primary" },
   { name: "MySQL", icon: Database, level: 75, color: "from-primary to-[hsl(300,70%,60%)]" },
-  { name: "Power BI", icon: BarChart3, level: 60, color: "from-[hsl(280,80%,55%)] to-[hsl(260,80%,65%)]" },
+  { name: "Power BI (Basics)", icon: BarChart3, level: 60, color: "from-[hsl(280,80%,55%)] to-[hsl(260,80%,65%)]" },
+  { name: "UI / UX (Figma, Canva, Photoshop)", icon: Palette, level: 70, color: "from-[hsl(290,80%,60%)] to-[hsl(260,80%,65%)]" },
+  { name: "MS Office (Word, Excel)", icon: FileText, level: 70, color: "from-[hsl(270,80%,55%)] to-[hsl(290,80%,65%)]" },
 ];
 
 const softSkills = [

@@ -16,10 +16,11 @@ const timeline = [
 ];
 
 const achievements = [
-  "Won Third Prize in PPT Presentation at Ramakrishna Engineering College.",
-  "Participated in Project Presentation at KSR College of Engineering & Technology, Tiruchengode.",
+  "Participated in PPT Presentation at Ramakrishna Engineering College.",
+  "Participated in Project Presentation at KSR College of Engineering & Technology.",
   "Presented a Project Explanation at Kongu Engineering College, Erode.",
-  "Won Multiple District-Level Essay Competitions.",
+  "Won Multiple Essay Competitions.",
+  "NPTEL Completed — Neural Networks for Computer Vision (Elite + Silver).",
 ];
 
 export default function EducationSection() {

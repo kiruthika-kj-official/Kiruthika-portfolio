@@ -30,7 +30,9 @@ export default function HeroSection() {
             </a>
             <a
               href="/Kiruthika_K_Resume.pdf"
-              download
+              download="Kiruthika_K_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-glass-border text-foreground font-semibold text-sm hover:bg-secondary transition-all duration-200 active:scale-[0.97] hover:scale-105 hover:border-primary/40"
             >
               Download Resume <Download size={16} />
