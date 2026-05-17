@@ -6,6 +6,7 @@ import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import SkillsSection from "@/components/SkillsSection";
 import ProjectsSection from "@/components/ProjectsSection";
+import DesignSection from "@/components/DesignSection";
 import EducationSection from "@/components/EducationSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -24,6 +25,7 @@ export default function Index() {
         <AboutSection />
         <SkillsSection />
         <ProjectsSection />
+        <DesignSection />
         <EducationSection />
         <ContactSection />
       </main>

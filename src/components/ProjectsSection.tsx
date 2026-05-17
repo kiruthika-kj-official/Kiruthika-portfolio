@@ -1,4 +1,4 @@
-import { ExternalLink, Github, Folder } from "lucide-react";
+import { Folder } from "lucide-react";
 
 const projects = [
   {
@@ -61,20 +61,6 @@ export default function ProjectsSection() {
                     {t}
                   </span>
                 ))}
-              </div>
-              <div className="flex gap-3">
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline underline-offset-4 transition-all hover:gap-2.5"
-                >
-                  <ExternalLink size={14} /> Live Demo
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all hover:gap-2.5"
-                >
-                  <Github size={14} /> GitHub
-                </a>
               </div>
             </div>
           ))}
