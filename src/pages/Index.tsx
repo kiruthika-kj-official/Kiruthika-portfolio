@@ -27,6 +27,7 @@ export default function Index() {
         <SkillsSection />
         <ProjectsSection />
         <DesignSection />
+        <EducationSection />
         <ResumeSection />
         <ContactSection />
       </main>
