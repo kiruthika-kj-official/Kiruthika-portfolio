@@ -1,26 +1,33 @@
-import { Folder, Smartphone, Globe, Layout } from "lucide-react";
+import { Folder, Brain, HeartPulse, Droplet, MessageCircle } from "lucide-react";
 
 const projects = [
   {
-    title: "Food Delivery App UI",
-    description: "Designed a modern mobile app UI for food ordering with clean navigation and user-friendly experience.",
-    tools: ["Figma", "Canva"],
-    icon: Smartphone,
+    title: "Neuro AI: Smart Education System",
+    description: "An AI-powered smart education platform that personalizes learning paths and content for students.",
+    tools: ["Python", "AI", "React"],
+    icon: Brain,
     gradient: "from-[hsl(270,80%,60%)] to-[hsl(300,80%,65%)]",
   },
   {
-    title: "College Event Website",
-    description: "Created responsive event registration website wireframes and UI mockups.",
-    tools: ["Figma", "Photoshop"],
-    icon: Globe,
+    title: "Deep Learning Healthcare App",
+    description: "Deep learning based healthcare application for early disease prediction and diagnosis support.",
+    tools: ["Python", "Deep Learning", "TensorFlow"],
+    icon: HeartPulse,
     gradient: "from-[hsl(260,80%,60%)] to-[hsl(280,90%,65%)]",
   },
   {
-    title: "Portfolio Website Design",
-    description: "Designed and developed a personal portfolio website with modern dark theme UI.",
-    tools: ["Lovable", "HTML", "CSS"],
-    icon: Layout,
+    title: "Blood Bank Management System",
+    description: "Full-stack web app to manage donors, requests and inventory for a blood bank.",
+    tools: ["MERN", "MongoDB", "Node.js"],
+    icon: Droplet,
     gradient: "from-[hsl(280,80%,55%)] to-[hsl(260,80%,65%)]",
+  },
+  {
+    title: "Chatbot",
+    description: "Conversational chatbot with intent recognition and friendly responses for user queries.",
+    tools: ["Python", "NLP"],
+    icon: MessageCircle,
+    gradient: "from-[hsl(290,80%,60%)] to-[hsl(270,80%,65%)]",
   },
 ];
 
