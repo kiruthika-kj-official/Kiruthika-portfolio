@@ -1,13 +1,24 @@
-import { Figma, Palette, Image as ImageIcon, PenTool, Layers, Layout, Lightbulb, Search, Smartphone, Code2, FileCode, Braces, Sparkles } from "lucide-react";
+import { Figma, Palette, Image as ImageIcon, PenTool, Layers, Layout, Lightbulb, Search, Smartphone, Code2, FileCode, Braces, Sparkles, Database, BarChart3, FileText, Users, MessageSquare, Puzzle, Crown } from "lucide-react";
 
 const groups = [
+  {
+    title: "Technical",
+    icon: Code2,
+    skills: [
+      { name: "Python", icon: Braces },
+      { name: "MERN Stack", icon: Code2 },
+      { name: "MySQL", icon: Database },
+      { name: "Power BI (Basics)", icon: BarChart3 },
+      { name: "MS Office (Word, Excel)", icon: FileText },
+    ],
+  },
   {
     title: "Design Tools",
     icon: Palette,
     skills: [
       { name: "Figma", icon: Figma },
       { name: "Canva", icon: ImageIcon },
-      { name: "Adobe Photoshop", icon: ImageIcon },
+      { name: "Adobe Photoshop (Basic)", icon: ImageIcon },
       { name: "Illustrator", icon: PenTool },
       { name: "Adobe XD", icon: Layers },
     ],
@@ -30,6 +41,16 @@ const groups = [
       { name: "HTML", icon: FileCode },
       { name: "CSS", icon: FileCode },
       { name: "JavaScript", icon: Braces },
+    ],
+  },
+  {
+    title: "Soft Skills",
+    icon: Sparkles,
+    skills: [
+      { name: "Leadership", icon: Crown },
+      { name: "Communication", icon: MessageSquare },
+      { name: "Problem Solving", icon: Puzzle },
+      { name: "Teamwork", icon: Users },
     ],
   },
 ];
