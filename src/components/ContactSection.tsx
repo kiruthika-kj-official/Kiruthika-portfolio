@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, Send, Sparkles, Linkedin } from "lucide-react";
 
 const contactInfo = [
   { icon: Mail, label: "Gmail", value: "kj.kiruthika2006@gmail.com", href: "mailto:kj.kiruthika2006@gmail.com" },
-  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/kiruthika-k", href: "https://www.linkedin.com/in/kiruthika-k-676547352" },
+  { icon: Linkedin, label: "LinkedIn", value: "www.linkedin.com/in/kiruthika-k-676547352", href: "https://www.linkedin.com/in/kiruthika-k-676547352/" },
   { icon: Phone, label: "Phone", value: "+91 6383375257", href: "tel:+916383375257" },
   { icon: MapPin, label: "Location", value: "Karur, Tamil Nadu", href: null },
 ];

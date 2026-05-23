@@ -1,7 +1,7 @@
 import { Linkedin, Mail, Figma } from "lucide-react";
 
 const socials = [
-  { icon: Linkedin, href: "https://www.linkedin.com/in/kiruthika-k-676547352", label: "LinkedIn" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/kiruthika-k-676547352/", label: "LinkedIn" },
   { icon: Mail, href: "mailto:kj.kiruthika2006@gmail.com", label: "Email" },
   { icon: Figma, href: "#", label: "Figma" },
 ];
