@@ -5,7 +5,7 @@ const timeline = [
     year: "2023 – Present",
     title: "B.Tech – Artificial Intelligence and Data Science",
     institution: "Chettinad College of Engineering & Technology, Karur",
-    description: "CGPA: 8.43 (Up to 5th Semester)",
+    description: "CGPA: 8.1 (Up to 5th Semester)",
   },
   {
     year: "2022 – 2023",
