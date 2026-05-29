@@ -32,12 +32,13 @@ export default function ContactSection() {
               Open to UI/UX internships, design collaborations, and freelance opportunities. Let's create something beautiful together.
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
-              {contactInfo.map((item) => {
-                const Wrapper = item.href ? 'a' : 'div';
-                return (
-                  <Wrapper
+              {contactInfo.map((item) =>
+                item.href ? (
+                  <a
                     key={item.label}
-                    {...(item.href ? { href: item.href, target: "_blank", rel: "noopener noreferrer" } : {})}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-3 group hover-lift glass-card p-4"
                   >
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
@@ -47,9 +48,19 @@ export default function ContactSection() {
                       <p className="text-xs text-muted-foreground">{item.label}</p>
                       <p className="text-sm font-medium group-hover:text-primary transition-colors truncate">{item.value}</p>
                     </div>
-                  </Wrapper>
-                );
-              })}
+                  </a>
+                ) : (
+                  <div key={item.label} className="flex items-center gap-3 group hover-lift glass-card p-4">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
+                      <item.icon size={18} className="text-primary" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs text-muted-foreground">{item.label}</p>
+                      <p className="text-sm font-medium group-hover:text-primary transition-colors truncate">{item.value}</p>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
           </div>
 
