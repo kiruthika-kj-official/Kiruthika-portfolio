@@ -3,7 +3,7 @@ import { User, Palette, MapPin, Figma, Sparkles } from "lucide-react";
 const highlights = [
   { icon: Figma, label: "Design Tools", detail: "Figma, Canva, XD" },
   { icon: Palette, label: "Creative", detail: "UI/UX Designer" },
-  { icon: MapPin, label: "Erode", detail: "Tamil Nadu" },
+  { icon: MapPin, label: "Trichy", detail: "Tamil Nadu" },
   { icon: Sparkles, label: "Passionate", detail: "Visual Thinker" },
 ];
 
