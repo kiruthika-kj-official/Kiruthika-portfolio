@@ -4,25 +4,6 @@ import profileImg from "@/assets/profile-kiruthika.jpeg";
 const RESUME_URL = "/Kiruthika_K_Resume.pdf";
 
 export default function HeroSection() {
-  const downloadResume = async () => {
-    try {
-      const response = await fetch(RESUME_URL);
-      if (!response.ok) throw new Error("Resume file not found");
-
-      const blob = await response.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = objectUrl;
-      link.download = "Kiruthika_K_Resume.pdf";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(objectUrl);
-    } catch {
-      window.open(RESUME_URL, "_blank", "noopener,noreferrer");
-    }
-  };
-
   return (
     <section id="home" className="min-h-screen flex items-center section-padding pt-28 relative overflow-hidden">
       <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
@@ -58,13 +39,15 @@ export default function HeroSection() {
             >
               Contact Me <Mail size={16} />
             </a>
-            <button
-              type="button"
-              onClick={downloadResume}
+            <a
+              href={RESUME_URL}
+              download="Kiruthika_K_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-primary/40 text-primary font-semibold text-sm hover:bg-primary/10 hover:border-primary transition-all duration-200 active:scale-[0.97] hover:scale-105"
             >
               Resume <Download size={16} />
-            </button>
+            </a>
           </div>
         </div>
         <div className="flex justify-center md:justify-end scroll-reveal" style={{ transitionDelay: "400ms" }}>
