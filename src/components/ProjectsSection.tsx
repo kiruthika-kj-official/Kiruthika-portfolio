@@ -1,33 +1,33 @@
-import { Folder, Brain, HeartPulse, Droplet, MessageCircle } from "lucide-react";
+import { Folder } from "lucide-react";
+import neuroImg from "@/assets/project-neuro-ai.jpg";
+import healthImg from "@/assets/project-healthcare.jpg";
+import bloodImg from "@/assets/project-bloodbank.jpg";
+import chatImg from "@/assets/project-chatbot.jpg";
 
 const projects = [
   {
     title: "Neuro AI: Smart Education System",
     description: "An AI-powered smart education platform that personalizes learning paths and content for students.",
     tools: ["Python", "AI", "React"],
-    icon: Brain,
-    gradient: "from-[hsl(270,80%,60%)] to-[hsl(300,80%,65%)]",
+    image: neuroImg,
   },
   {
     title: "Deep Learning Healthcare App",
     description: "Deep learning based healthcare application for early disease prediction and diagnosis support.",
     tools: ["Python", "Deep Learning", "TensorFlow"],
-    icon: HeartPulse,
-    gradient: "from-[hsl(260,80%,60%)] to-[hsl(280,90%,65%)]",
+    image: healthImg,
   },
   {
     title: "Blood Bank Management System",
     description: "Full-stack web app to manage donors, requests and inventory for a blood bank.",
     tools: ["MERN", "MongoDB", "Node.js"],
-    icon: Droplet,
-    gradient: "from-[hsl(280,80%,55%)] to-[hsl(260,80%,65%)]",
+    image: bloodImg,
   },
   {
     title: "Chatbot",
     description: "Conversational chatbot with intent recognition and friendly responses for user queries.",
     tools: ["Python", "NLP"],
-    icon: MessageCircle,
-    gradient: "from-[hsl(290,80%,60%)] to-[hsl(270,80%,65%)]",
+    image: chatImg,
   },
 ];
 
@@ -49,15 +49,20 @@ export default function ProjectsSection() {
               className="glass-card p-0 hover-lift group scroll-reveal relative overflow-hidden"
               style={{ transitionDelay: `${120 + i * 120}ms` }}
             >
-              <div className={`relative h-44 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.25),transparent_60%)]" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <project.icon size={60} className="text-white/90 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500" />
-                </div>
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  loading="lazy"
+                  width={1024}
+                  height={640}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
                 <div className="absolute top-3 left-3 flex gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/40" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/40" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/40" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-primary/70" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-primary/40" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-primary/20" />
                 </div>
               </div>
               <div className="p-6">
