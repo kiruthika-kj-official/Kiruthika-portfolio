@@ -1,107 +1,167 @@
 import { useEffect, useState } from "react";
-import { Play, Cpu } from "lucide-react";
-
-const BOOT_LINES = [
-  "> initializing neural core ...",
-  "> loading AI & DS modules ...",
-  "> calibrating design engine ...",
-  "> establishing portfolio uplink ...",
-  "> system ready.",
-];
+import { Power, Zap } from "lucide-react";
+import robotImg from "@/assets/welcome-robot.png";
 
 export default function WelcomeScreen({ onEnter }: { onEnter: () => void }) {
-  const [booting, setBooting] = useState(false);
-  const [lines, setLines] = useState<string[]>([]);
-  const [progress, setProgress] = useState(0);
+  const [activating, setActivating] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (!booting) return;
-    let i = 0;
-    const lineTimer = setInterval(() => {
-      setLines((prev) => [...prev, BOOT_LINES[i]]);
-      i++;
-      if (i >= BOOT_LINES.length) clearInterval(lineTimer);
-    }, 350);
-    const progTimer = setInterval(() => {
-      setProgress((p) => Math.min(100, p + 4));
-    }, 70);
+    if (!activating) return;
+    const t = setInterval(() => {
+      setProgress((p) => {
+        if (p >= 100) {
+          clearInterval(t);
+          return 100;
+        }
+        return p + 2;
+      });
+    }, 30);
     const done = setTimeout(() => {
       setLeaving(true);
-      setTimeout(onEnter, 700);
-    }, 2200);
+      setTimeout(onEnter, 800);
+    }, 1900);
     return () => {
-      clearInterval(lineTimer);
-      clearInterval(progTimer);
+      clearInterval(t);
       clearTimeout(done);
     };
-  }, [booting, onEnter]);
+  }, [activating, onEnter]);
 
   return (
     <div
-      className={`fixed inset-0 z-[100] bg-background flex items-center justify-center overflow-hidden transition-opacity duration-700 ${
-        leaving ? "opacity-0 pointer-events-none" : "opacity-100"
+      className={`fixed inset-0 z-[100] bg-background flex items-center justify-center overflow-hidden transition-all duration-700 ${
+        leaving ? "opacity-0 scale-110 pointer-events-none" : "opacity-100 scale-100"
       }`}
     >
-      {/* grid backdrop */}
+      {/* Radial grid */}
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-40"
         style={{
           backgroundImage:
             "linear-gradient(hsl(var(--primary)/0.15) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)/0.15) 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
-          maskImage: "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          backgroundSize: "60px 60px",
+          maskImage: "radial-gradient(ellipse at center, black 20%, transparent 70%)",
         }}
       />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/10 rounded-full blur-[120px] animate-pulse-glow" />
 
-      <div className="relative z-10 text-center px-6 max-w-xl w-full">
-        <p className="mono text-[10px] sm:text-xs tracking-[0.5em] text-muted-foreground mb-4 animate-fade-in">
-          SYSTEM · V1.0 · AI &amp; DS
+      {/* Ambient glows */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[140px] animate-pulse-glow" />
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-[hsl(300,80%,65%)]/20 rounded-full blur-[100px] animate-float" />
+
+      {/* Floating code particles */}
+      {["01001", "AI", "NEURAL", "DATA", "ML", "10110", "SYS", "CORE"].map((t, i) => (
+        <span
+          key={i}
+          className="absolute mono text-xs text-primary/40 animate-float pointer-events-none"
+          style={{
+            top: `${15 + (i * 11) % 70}%`,
+            left: `${8 + (i * 17) % 84}%`,
+            animationDelay: `${i * 0.4}s`,
+            animationDuration: `${5 + (i % 3)}s`,
+          }}
+        >
+          {t}
+        </span>
+      ))}
+
+      <div className="relative z-10 flex flex-col items-center px-6 max-w-md w-full">
+        {/* Robot orbital display */}
+        <div className="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center mb-6">
+          {/* Orbital rings */}
+          <div
+            className="absolute inset-0 rounded-full border border-primary/30"
+            style={{ animation: "spin 12s linear infinite" }}
+          >
+            <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary shadow-[0_0_12px_hsl(var(--primary))]" />
+          </div>
+          <div
+            className="absolute inset-4 rounded-full border border-[hsl(300,80%,65%)]/30"
+            style={{ animation: "spin 8s linear infinite reverse" }}
+          >
+            <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 rounded-full bg-[hsl(300,80%,65%)] shadow-[0_0_12px_hsl(300,80%,65%)]" />
+          </div>
+          <div
+            className="absolute inset-8 rounded-full border-2 border-dashed border-primary/20"
+            style={{ animation: "spin 20s linear infinite" }}
+          />
+
+          {/* Robot */}
+          <div className="relative w-40 h-40 sm:w-44 sm:h-44 rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-[hsl(300,80%,65%)]/20 flex items-end justify-center border-2 border-primary/50 shadow-[0_0_60px_hsl(var(--primary)/0.6)]">
+            <img
+              src={robotImg}
+              alt="AI"
+              className={`w-full h-full object-cover object-top ${activating ? "animate-pulse" : ""}`}
+              style={{ filter: "drop-shadow(0 0 20px hsl(var(--primary)/0.8))" }}
+            />
+            {/* Scan line */}
+            {activating && (
+              <span
+                className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_20px_hsl(var(--primary))]"
+                style={{
+                  animation: "scanline 1.2s ease-in-out infinite",
+                }}
+              />
+            )}
+          </div>
+        </div>
+
+        <p className="mono text-[10px] tracking-[0.4em] text-primary/70 mb-2 uppercase animate-fade-in">
+          {activating ? "// AI CORE ONLINE" : "// AI ASSISTANT · STANDBY"}
         </p>
         <h1
-          className="text-4xl sm:text-6xl font-bold glow-text tracking-tight mb-2 animate-fade-in"
-          style={{ textShadow: "0 0 30px hsl(var(--primary)/0.8), 0 0 60px hsl(var(--primary)/0.4)" }}
+          className="text-3xl sm:text-4xl font-bold glow-text tracking-tight mb-1 text-center animate-fade-in"
+          style={{ textShadow: "0 0 30px hsl(var(--primary)/0.8)" }}
         >
-          INITIATE SEQUENCE
+          {activating ? "WELCOME" : "HELLO, HUMAN"}
         </h1>
-        <p className="mono text-xs text-primary/70 mb-8 animate-fade-in">KIRUTHIKA · PORTFOLIO</p>
+        <p className="mono text-xs text-muted-foreground mb-6 text-center">
+          KIRUTHIKA · AI &amp; DATA SCIENCE
+        </p>
 
-        {!booting ? (
+        {!activating ? (
           <button
-            onClick={() => setBooting(true)}
-            className="group inline-flex items-center gap-3 px-8 py-3 rounded-full border border-primary/50 bg-primary/10 text-foreground font-semibold text-sm hover:bg-primary/20 hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_-5px_hsl(var(--primary))] animate-fade-in"
+            onClick={() => setActivating(true)}
+            className="group relative inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_50px_hsl(var(--primary))] animate-fade-in"
           >
-            <Play size={16} className="text-primary group-hover:translate-x-0.5 transition-transform" fill="currentColor" />
-            TAP TO BOOT
+            <span className="absolute inset-0 bg-gradient-to-r from-primary via-[hsl(300,80%,65%)] to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ backgroundSize: "200% 100%", animation: "gradient-shift 3s ease infinite" }} />
+            <Power size={16} className="relative z-10" />
+            <span className="relative z-10 tracking-widest">ACTIVATE</span>
           </button>
         ) : (
-          <div className="glass-card p-5 text-left animate-fade-in">
-            <div className="flex items-center gap-2 mb-3 text-primary">
-              <Cpu size={14} className="animate-pulse" />
-              <span className="mono text-xs">boot.sequence</span>
-              <span className="ml-auto mono text-xs text-muted-foreground">{progress}%</span>
+          <div className="w-full space-y-3 animate-fade-in">
+            <div className="flex items-center justify-between mono text-[10px] text-primary/80">
+              <span className="flex items-center gap-1.5">
+                <Zap size={10} className="animate-pulse" />
+                SYNCING NEURAL LINK
+              </span>
+              <span>{progress}%</span>
             </div>
-            <div className="h-1 rounded-full bg-secondary overflow-hidden mb-4">
+            <div className="h-1.5 rounded-full bg-secondary overflow-hidden relative">
               <div
-                className="h-full bg-gradient-to-r from-primary to-[hsl(300,80%,65%)] transition-all duration-150"
-                style={{ width: `${progress}%` }}
-              />
+                className="h-full bg-gradient-to-r from-primary via-[hsl(300,80%,65%)] to-primary transition-all duration-150 relative"
+                style={{ width: `${progress}%`, backgroundSize: "200% 100%", animation: "gradient-shift 2s ease infinite" }}
+              >
+                <span className="absolute right-0 top-0 h-full w-4 bg-white/60 blur-sm" />
+              </div>
             </div>
-            <div className="mono text-xs space-y-1 min-h-[120px]">
-              {lines.map((l, i) => (
-                <div key={i} className="text-primary/90 animate-fade-in">
-                  {l}
-                </div>
-              ))}
-              <span className="inline-block w-2 h-3 bg-primary animate-pulse" />
+            <div className="flex justify-between mono text-[9px] text-muted-foreground uppercase tracking-wider">
+              <span className={progress > 20 ? "text-primary" : ""}>● core</span>
+              <span className={progress > 50 ? "text-primary" : ""}>● vision</span>
+              <span className={progress > 75 ? "text-primary" : ""}>● design</span>
+              <span className={progress >= 100 ? "text-primary" : ""}>● ready</span>
             </div>
           </div>
         )}
-        <p className="mono text-[10px] tracking-widest text-muted-foreground mt-6">
-          AI &amp; DATA SCIENCE · UI/UX DESIGNER
-        </p>
       </div>
+
+      <style>{`
+        @keyframes scanline {
+          0% { top: 0%; opacity: 1; }
+          50% { opacity: 0.8; }
+          100% { top: 100%; opacity: 0; }
+        }
+      `}</style>
     </div>
   );
 }
