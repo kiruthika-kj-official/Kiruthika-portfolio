@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
-const NAV_ITEMS = ["Home", "About", "Skills", "Projects", "Education", "Contact"];
+const NAV_ITEMS = ["Home", "About", "Skills", "Projects", "Education", "Certifications", "Contact"];
 
 export default function Navbar() {
   const [active, setActive] = useState("Home");

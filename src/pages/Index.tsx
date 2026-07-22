@@ -8,6 +8,7 @@ import AboutSection from "@/components/AboutSection";
 import SkillsSection from "@/components/SkillsSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import EducationSection from "@/components/EducationSection";
+import CertificationsSection from "@/components/CertificationsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -37,6 +38,7 @@ export default function Index() {
         <SkillsSection />
         <ProjectsSection />
         <EducationSection />
+        <CertificationsSection />
         <ContactSection />
       </main>
       <Footer />

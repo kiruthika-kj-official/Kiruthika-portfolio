@@ -1,11 +1,25 @@
-import { Figma, Palette, Image as ImageIcon, Code2, Braces, Sparkles, Database, BarChart3, FileText, Users, MessageSquare, Puzzle, Crown, Cpu } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Code2, Palette, Sparkles, Database, BarChart3, FileText, Figma, Image as ImageIcon, Braces, Cpu, Users, MessageSquare, Puzzle, Crown } from "lucide-react";
 
-const groups = [
+type Skill = { name: string; icon: any; level: number };
+type Group = {
+  key: string;
+  title: string;
+  tag: string;
+  blurb: string;
+  icon: any;
+  hue: string; // hsl hue
+  skills: Skill[];
+};
+
+const groups: Group[] = [
   {
+    key: "code",
     title: "Technical Stack",
-    tag: "01 · CODE",
+    tag: "Engineering",
+    blurb: "Building intelligent, data-driven systems end to end.",
     icon: Code2,
-    accent: "from-primary/40 to-[hsl(270,90%,55%)]/20",
+    hue: "270",
     skills: [
       { name: "Python", icon: Braces, level: 88 },
       { name: "MERN Stack", icon: Code2, level: 80 },
@@ -15,10 +29,12 @@ const groups = [
     ],
   },
   {
+    key: "design",
     title: "Design Craft",
-    tag: "02 · DESIGN",
+    tag: "Visual",
+    blurb: "Turning ideas into elegant, human-centered interfaces.",
     icon: Palette,
-    accent: "from-[hsl(310,90%,65%)]/40 to-[hsl(280,80%,55%)]/20",
+    hue: "310",
     skills: [
       { name: "Figma", icon: Figma, level: 92 },
       { name: "Canva", icon: ImageIcon, level: 95 },
@@ -27,10 +43,12 @@ const groups = [
     ],
   },
   {
+    key: "soft",
     title: "Human Skills",
-    tag: "03 · SOFT",
+    tag: "Mindset",
+    blurb: "The soft edges that make hard work land.",
     icon: Sparkles,
-    accent: "from-[hsl(220,90%,65%)]/40 to-[hsl(270,90%,55%)]/20",
+    hue: "220",
     skills: [
       { name: "Leadership", icon: Crown, level: 88 },
       { name: "Communication", icon: MessageSquare, level: 90 },
@@ -41,109 +59,187 @@ const groups = [
 ];
 
 export default function SkillsSection() {
+  const [active, setActive] = useState<string>("code");
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      ([e]) => e.isIntersecting && setVisible(true),
+      { threshold: 0.2 }
+    );
+    if (ref.current) io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+
+  const current = groups.find((g) => g.key === active)!;
+
   return (
     <section id="skills" className="section-padding relative overflow-hidden">
       {/* Ambient */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
-      <div className="absolute bottom-10 left-10 w-72 h-72 bg-[hsl(310,80%,65%)]/5 rounded-full blur-3xl animate-float" style={{ animationDelay: "4s" }} />
       <div
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        className="absolute inset-0 opacity-[0.05] pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          maskImage: "radial-gradient(ellipse at center, black, transparent 70%)",
+            "radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)",
+          backgroundSize: "40px 40px",
+          maskImage: "radial-gradient(ellipse at center, black, transparent 75%)",
         }}
       />
+      <div
+        className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full blur-[140px] opacity-30 transition-colors duration-700"
+        style={{ background: `hsl(${current.hue} 90% 55% / 0.25)` }}
+      />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div ref={ref} className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
-        <div className="flex items-center gap-2 mb-3 scroll-reveal">
-          <span className="w-8 h-px bg-primary" />
-          <span className="mono text-[10px] tracking-[0.4em] uppercase text-primary">Capabilities</span>
+        <div className="flex items-center gap-3 mb-4 scroll-reveal">
+          <span className="w-10 h-px bg-primary" />
+          <span className="mono text-[10px] tracking-[0.5em] uppercase text-primary">
+            04 · Capabilities
+          </span>
         </div>
-        <div className="flex flex-wrap items-end justify-between gap-4 mb-14 scroll-reveal" style={{ transitionDelay: "80ms" }}>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-            The <span className="gradient-text">Toolkit</span>
+        <div className="flex flex-wrap items-end justify-between gap-6 mb-12 scroll-reveal" style={{ transitionDelay: "80ms" }}>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+            Skills that <span className="gradient-text italic">compose</span>
+            <br /> a whole practice.
           </h2>
-          <p className="mono text-xs text-muted-foreground max-w-sm">
-            // A blend of engineering rigor, design intuition and human collaboration.
+          <p className="text-muted-foreground text-sm max-w-xs">
+            A fluid stack of engineering, design and communication — used together, not in silos.
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-5">
-          {groups.map((group, gi) => (
-            <div
-              key={group.title}
-              className="relative scroll-reveal group"
-              style={{ transitionDelay: `${160 + gi * 120}ms` }}
-            >
-              {/* Glow ring */}
-              <div className={`absolute -inset-px rounded-2xl bg-gradient-to-br ${group.accent} opacity-40 group-hover:opacity-100 blur-sm transition-all duration-500`} />
-
-              <div className="relative glass-card p-6 rounded-2xl h-full overflow-hidden bg-card/70">
-                {/* Corner tick */}
-                <span className="absolute top-3 right-3 w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_hsl(var(--primary))]" />
-                {/* Number background */}
-                <span className="absolute -bottom-6 -right-2 text-[120px] font-black leading-none text-primary/[0.04] select-none">
-                  0{gi + 1}
+        {/* Tab pills */}
+        <div className="flex flex-wrap gap-2 mb-8 scroll-reveal" style={{ transitionDelay: "160ms" }}>
+          {groups.map((g) => {
+            const isActive = g.key === active;
+            return (
+              <button
+                key={g.key}
+                onClick={() => setActive(g.key)}
+                className={`group relative flex items-center gap-2 px-5 py-2.5 rounded-full border text-sm font-medium transition-all duration-500 ${
+                  isActive
+                    ? "border-primary/60 text-foreground bg-primary/10 shadow-[0_0_30px_hsl(var(--primary)/0.25)]"
+                    : "border-glass-border text-muted-foreground hover:text-foreground hover:border-primary/40"
+                }`}
+              >
+                <g.icon size={14} className={isActive ? "text-primary" : ""} />
+                {g.title}
+                <span className={`mono text-[9px] tracking-widest ${isActive ? "text-primary/80" : "text-muted-foreground/60"}`}>
+                  {String(g.skills.length).padStart(2, "0")}
                 </span>
-
-                {/* Tag */}
-                <div className="mono text-[9px] tracking-[0.35em] text-primary/70 mb-4">
-                  {group.tag}
-                </div>
-
-                {/* Title with icon */}
-                <div className="flex items-center gap-3 mb-6">
-                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${group.accent} flex items-center justify-center border border-primary/30 shadow-[inset_0_0_20px_hsl(var(--primary)/0.15)]`}>
-                    <group.icon size={20} className="text-foreground" />
-                  </div>
-                  <h3 className="font-bold text-xl tracking-tight">{group.title}</h3>
-                </div>
-
-                {/* Skills list w/ bars */}
-                <ul className="space-y-3.5">
-                  {group.skills.map((s, si) => (
-                    <li key={s.name} className="group/skill">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <div className="flex items-center gap-2">
-                          <s.icon size={13} className="text-primary" />
-                          <span className="text-[13px] font-medium">{s.name}</span>
-                        </div>
-                        <span className="mono text-[10px] text-primary/70">{s.level}%</span>
-                      </div>
-                      <div className="h-[3px] rounded-full bg-primary/10 overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-primary to-[hsl(310,90%,65%)] transition-all duration-1000 ease-out group-hover:shadow-[0_0_10px_hsl(var(--primary))]"
-                          style={{
-                            width: `${s.level}%`,
-                            transitionDelay: `${si * 100}ms`,
-                          }}
-                        />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Stats strip */}
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3 scroll-reveal" style={{ transitionDelay: "520ms" }}>
-          {[
-            { k: "10+", v: "Projects Built" },
-            { k: "3+", v: "Internships" },
-            { k: "500+", v: "Hours in Figma" },
-            { k: "∞", v: "Curiosity" },
-          ].map((s) => (
-            <div key={s.v} className="glass-card p-4 text-center hover-lift">
-              <div className="text-2xl font-bold gradient-text">{s.k}</div>
-              <div className="mono text-[10px] tracking-widest uppercase text-muted-foreground mt-1">{s.v}</div>
+        {/* Panel */}
+        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-6">
+          {/* Left: narrative */}
+          <div
+            key={current.key + "-l"}
+            className="relative rounded-3xl overflow-hidden border border-glass-border bg-card/50 backdrop-blur-xl p-8 md:p-10 animate-fade-in"
+          >
+            <div
+              className="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl opacity-40"
+              style={{ background: `hsl(${current.hue} 90% 60% / 0.4)` }}
+            />
+            <div className="relative">
+              <div className="mono text-[10px] tracking-[0.4em] uppercase text-primary/70 mb-6">
+                — {current.tag}
+              </div>
+              <div className="flex items-center gap-4 mb-6">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center border"
+                  style={{
+                    background: `linear-gradient(135deg, hsl(${current.hue} 90% 55% / 0.25), hsl(${current.hue} 90% 55% / 0.05))`,
+                    borderColor: `hsl(${current.hue} 90% 55% / 0.4)`,
+                  }}
+                >
+                  <current.icon size={24} className="text-foreground" />
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold tracking-tight">{current.title}</h3>
+              </div>
+              <p className="text-muted-foreground leading-relaxed max-w-md mb-8">
+                {current.blurb}
+              </p>
+
+              {/* Big proficiency ring */}
+              <div className="flex items-center gap-6">
+                <div className="relative w-28 h-28">
+                  <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="42" strokeWidth="6" fill="none" className="stroke-primary/10" />
+                    <circle
+                      cx="50" cy="50" r="42"
+                      strokeWidth="6" fill="none"
+                      strokeLinecap="round"
+                      style={{
+                        stroke: `hsl(${current.hue} 90% 60%)`,
+                        strokeDasharray: 2 * Math.PI * 42,
+                        strokeDashoffset:
+                          2 * Math.PI * 42 *
+                          (1 - (current.skills.reduce((a, s) => a + s.level, 0) / current.skills.length) / 100),
+                        transition: "stroke-dashoffset 1s ease-out",
+                        filter: `drop-shadow(0 0 8px hsl(${current.hue} 90% 60% / 0.6))`,
+                      }}
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-2xl font-bold">
+                      {Math.round(current.skills.reduce((a, s) => a + s.level, 0) / current.skills.length)}
+                    </span>
+                    <span className="mono text-[9px] tracking-widest text-muted-foreground">AVG %</span>
+                  </div>
+                </div>
+                <div className="text-sm text-muted-foreground max-w-[180px]">
+                  Across {current.skills.length} focus areas — measured by hours, shipped work, and real projects.
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
+
+          {/* Right: skill bars */}
+          <div
+            key={current.key + "-r"}
+            className="rounded-3xl border border-glass-border bg-card/50 backdrop-blur-xl p-8 md:p-10 animate-fade-in"
+          >
+            <ul className="space-y-6">
+              {current.skills.map((s, i) => (
+                <li key={s.name} className="group">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <span
+                        className="w-8 h-8 rounded-lg flex items-center justify-center border"
+                        style={{
+                          background: `hsl(${current.hue} 90% 55% / 0.12)`,
+                          borderColor: `hsl(${current.hue} 90% 55% / 0.3)`,
+                        }}
+                      >
+                        <s.icon size={14} style={{ color: `hsl(${current.hue} 90% 70%)` }} />
+                      </span>
+                      <span className="text-sm font-medium">{s.name}</span>
+                    </div>
+                    <span className="mono text-[11px] text-muted-foreground group-hover:text-primary transition-colors">
+                      {s.level}%
+                    </span>
+                  </div>
+                  <div className="h-[6px] rounded-full bg-primary/5 overflow-hidden relative">
+                    <div
+                      className="h-full rounded-full relative"
+                      style={{
+                        width: visible ? `${s.level}%` : "0%",
+                        background: `linear-gradient(90deg, hsl(${current.hue} 90% 45%), hsl(${current.hue} 90% 65%))`,
+                        boxShadow: `0 0 12px hsl(${current.hue} 90% 60% / 0.6)`,
+                        transition: `width 1.1s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
+                      }}
+                    >
+                      <span className="absolute right-0 top-0 bottom-0 w-8 bg-white/40 blur-md" />
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
