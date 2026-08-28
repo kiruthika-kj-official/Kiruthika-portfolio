@@ -1,276 +1,210 @@
-import { useEffect, useState } from "react";
-import { Sparkles } from "lucide-react";
-import robotImg from "@/assets/welcome-robot.png";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
-type Phase = "idle" | "booting" | "greeting" | "leaving";
-
-const BOOT_LINES = [
-  "> initializing neural core...",
-  "> loading design modules...",
-  "> syncing portfolio assets...",
-  "> establishing connection...",
-];
+const orbitWords = ["AI & DATA SCIENCE", "PYTHON", "MERN STACK", "POWER BI", "UI / UX"];
 
 export default function WelcomeScreen({ onEnter }: { onEnter: () => void }) {
-  const [phase, setPhase] = useState<Phase>("idle");
-  const [progress, setProgress] = useState(0);
-  const [lineIdx, setLineIdx] = useState(0);
-  const [waveStep, setWaveStep] = useState(0);
-  const [showBubble, setShowBubble] = useState(false);
-  const [typed, setTyped] = useState("");
-
-  const greeting = "Hi, I'm Kiruthika 👋";
-
-  // Boot progress
-  useEffect(() => {
-    if (phase !== "booting") return;
-    const t = setInterval(() => {
-      setProgress((p) => Math.min(100, p + 5));
-    }, 40);
-    const lineT = setInterval(() => {
-      setLineIdx((i) => Math.min(BOOT_LINES.length - 1, i + 1));
-    }, 260);
-    const done = setTimeout(() => setPhase("greeting"), 1200);
-    return () => {
-      clearInterval(t);
-      clearInterval(lineT);
-      clearTimeout(done);
-    };
-  }, [phase]);
-
-  // Greeting animation — robot waves + speech bubble types out
-  useEffect(() => {
-    if (phase !== "greeting") return;
-    const waveT = setInterval(() => setWaveStep((w) => w + 1), 300);
-    const bubbleT = setTimeout(() => setShowBubble(true), 500);
-    return () => {
-      clearInterval(waveT);
-      clearTimeout(bubbleT);
-    };
-  }, [phase]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [leaving, setLeaving] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!showBubble) return;
-    let i = 0;
-    const t = setInterval(() => {
-      i++;
-      setTyped(greeting.slice(0, i));
-      if (i >= greeting.length) clearInterval(t);
-    }, 55);
-    const leave = setTimeout(() => setPhase("leaving"), 2600);
-    const enter = setTimeout(onEnter, 3400);
-    return () => {
-      clearInterval(t);
-      clearTimeout(leave);
-      clearTimeout(enter);
+    const t = setTimeout(() => setMounted(true), 60);
+    return () => clearTimeout(t);
+  }, []);
+
+  /* Constellation particle field */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let raf = 0;
+    let w = 0;
+    let h = 0;
+    const dots: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
+
+    const resize = () => {
+      w = canvas.width = canvas.offsetWidth;
+      h = canvas.height = canvas.offsetHeight;
     };
-  }, [showBubble, onEnter]);
+    resize();
+    window.addEventListener("resize", resize);
+
+    for (let i = 0; i < 70; i++) {
+      dots.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.6 + 0.6,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      for (const d of dots) {
+        d.x += d.vx;
+        d.y += d.vy;
+        if (d.x < 0 || d.x > w) d.vx *= -1;
+        if (d.y < 0 || d.y > h) d.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = "hsla(270, 90%, 75%, 0.75)";
+        ctx.fill();
+      }
+      for (let i = 0; i < dots.length; i++) {
+        for (let j = i + 1; j < dots.length; j++) {
+          const dx = dots[i].x - dots[j].x;
+          const dy = dots[i].y - dots[j].y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 130) {
+            ctx.beginPath();
+            ctx.moveTo(dots[i].x, dots[i].y);
+            ctx.lineTo(dots[j].x, dots[j].y);
+            ctx.strokeStyle = `hsla(285, 90%, 70%, ${(1 - dist / 130) * 0.18})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  const handleEnter = () => {
+    setLeaving(true);
+    setTimeout(onEnter, 850);
+  };
 
   return (
     <div
-      className={`fixed inset-0 z-[100] bg-[#06010f] overflow-hidden transition-all duration-700 ${
-        phase === "leaving" ? "opacity-0 scale-110 blur-2xl pointer-events-none" : "opacity-100"
+      className={`fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-background transition-all duration-[850ms] ${
+        leaving ? "opacity-0 scale-[1.08] blur-md pointer-events-none" : "opacity-100"
       }`}
     >
-      {/* Aurora */}
-      <div className="absolute inset-0">
-        <div className="absolute top-[-15%] left-[10%] w-[600px] h-[600px] rounded-full bg-primary/25 blur-[160px] animate-pulse-glow" />
-        <div className="absolute bottom-[-15%] right-[5%] w-[500px] h-[500px] rounded-full bg-[hsl(310,90%,60%)]/20 blur-[160px] animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
-        <div className="absolute top-[30%] right-[30%] w-[280px] h-[280px] rounded-full bg-[hsl(220,90%,60%)]/20 blur-[120px]" />
-      </div>
+      {/* Constellation */}
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-70" />
 
-      {/* Radial grid */}
+      {/* Aurora blooms */}
+      <div className="absolute -top-40 left-1/4 w-[520px] h-[520px] rounded-full bg-primary/25 blur-[150px] animate-pulse" />
       <div
-        className="absolute inset-0 opacity-[0.15]"
+        className="absolute -bottom-40 right-1/4 w-[480px] h-[480px] rounded-full bg-[hsl(310,90%,55%)]/20 blur-[150px] animate-pulse"
+        style={{ animationDelay: "1.4s" }}
+      />
+
+      {/* Fine grid */}
+      <div
+        className="absolute inset-0 opacity-[0.06]"
         style={{
           backgroundImage:
-            "linear-gradient(hsl(270,90%,65%,0.35) 1px, transparent 1px), linear-gradient(90deg, hsl(270,90%,65%,0.35) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          maskImage: "radial-gradient(ellipse at center, black 20%, transparent 75%)",
+            "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)",
+          backgroundSize: "70px 70px",
+          maskImage: "radial-gradient(ellipse at center, black 20%, transparent 72%)",
         }}
       />
 
-      {/* HUD corners */}
-      <div className="absolute top-6 left-6 mono text-[10px] tracking-[0.35em] text-primary/70">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-          KIRUTHIKA · OS
-        </div>
-        <div className="mt-1 text-muted-foreground">v3.0.0 // NEURAL CORE</div>
+      {/* Corner HUD */}
+      <div className="absolute top-6 left-6 right-6 flex justify-between mono text-[9px] tracking-[0.4em] uppercase text-muted-foreground/70">
+        <span>Kiruthika · Portfolio</span>
+        <span className="hidden sm:inline">Trichy · Tamil Nadu</span>
       </div>
-      <div className="absolute top-6 right-6 mono text-[10px] tracking-[0.35em] text-primary/70 text-right">
-        <div>TRICHY · TN</div>
-        <div className="mt-1 text-muted-foreground">10.79°N · 78.70°E</div>
-      </div>
-      <div className="absolute bottom-6 left-6 mono text-[10px] tracking-[0.3em] text-muted-foreground">
-        © 2026 · PORTFOLIO NODE
-      </div>
-      <div className="absolute bottom-6 right-6 mono text-[10px] tracking-[0.3em] text-primary/70 flex items-center gap-2">
-        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-        ONLINE
+      <div className="absolute bottom-6 left-6 right-6 flex justify-between mono text-[9px] tracking-[0.4em] uppercase text-muted-foreground/70">
+        <span className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+          Ready
+        </span>
+        <span>2026</span>
       </div>
 
       {/* Center stage */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
-        {/* Robot stage */}
-        <div className="relative w-[320px] h-[360px] sm:w-[400px] sm:h-[440px] flex items-end justify-center">
-          {/* Halo rings */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] rounded-full border border-primary/30"
-              style={{ animation: "spin 28s linear infinite" }}
-            >
-              <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_20px_hsl(var(--primary))]" />
-            </div>
-            <div
-              className="absolute w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] rounded-full border border-dashed border-[hsl(310,90%,65%)]/40"
-              style={{ animation: "spin 18s linear infinite reverse" }}
-            />
+      <div className="relative z-10 flex flex-col items-center px-6 text-center">
+        {/* Orbit rings + rotating keywords */}
+        <div className="relative w-[300px] h-[300px] md:w-[420px] md:h-[420px] flex items-center justify-center">
+          <div
+            className="absolute inset-0 rounded-full border border-primary/20"
+            style={{ animation: "spin 26s linear infinite" }}
+          >
+            <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary shadow-[0_0_16px_hsl(var(--primary))]" />
           </div>
+          <div
+            className="absolute inset-8 rounded-full border border-dashed border-[hsl(310,90%,60%)]/25"
+            style={{ animation: "spin 18s linear infinite reverse" }}
+          >
+            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[hsl(310,90%,65%)] shadow-[0_0_14px_hsl(310,90%,65%)]" />
+          </div>
+          <div className="absolute inset-16 rounded-full border border-primary/10" />
 
-          {/* Speech bubble */}
-          {phase === "greeting" && showBubble && (
-            <div
-              className="absolute top-2 sm:top-4 left-1/2 -translate-x-[10%] sm:-translate-x-[0%] animate-fade-in z-30"
-              style={{ transformOrigin: "bottom left" }}
-            >
-              <div className="relative bg-card/90 backdrop-blur-xl border border-primary/50 rounded-2xl rounded-bl-sm px-5 py-3 shadow-[0_0_40px_hsl(var(--primary)/0.4)]">
-                <div className="flex items-center gap-2 mono text-[9px] tracking-[0.3em] text-primary/70 mb-1">
-                  <Sparkles size={10} />
-                  NEURAL GREETING
-                </div>
-                <div className="text-base sm:text-lg font-semibold whitespace-nowrap">
-                  {typed}
-                  <span className="inline-block w-[2px] h-4 bg-primary ml-0.5 animate-pulse align-middle" />
-                </div>
-                {/* tail */}
-                <span className="absolute -bottom-1.5 left-6 w-3 h-3 bg-card/90 border-r border-b border-primary/50 rotate-45" />
-              </div>
-            </div>
-          )}
-
-          {/* Waving hand overlay (SVG) */}
-          {phase === "greeting" && (
-            <div
-              className="absolute z-20 pointer-events-none"
-              style={{
-                right: "8%",
-                top: "22%",
-                transformOrigin: "80% 80%",
-                animation: "wave 0.6s ease-in-out infinite",
-              }}
-            >
-              <div className="text-5xl sm:text-6xl drop-shadow-[0_0_20px_hsl(var(--primary))]">
-                👋
-              </div>
-            </div>
-          )}
-
-          {/* Robot */}
-          <img
-            src={robotImg}
-            alt="AI robot mascot"
-            className={`relative z-10 w-[85%] h-[85%] object-contain drop-shadow-[0_20px_60px_hsl(var(--primary)/0.5)] transition-transform duration-700 ${
-              phase === "greeting" ? "scale-105 -translate-y-1" : "scale-100"
+          {/* Monogram core */}
+          <div
+            className={`relative w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center border border-primary/40 backdrop-blur-xl transition-all duration-1000 ${
+              mounted ? "opacity-100 scale-100" : "opacity-0 scale-75"
             }`}
             style={{
-              animation: phase === "idle"
-                ? "float 5s ease-in-out infinite"
-                : phase === "greeting"
-                ? "robot-bounce 1.4s ease-in-out infinite"
-                : "float 5s ease-in-out infinite",
+              background:
+                "radial-gradient(circle at 30% 30%, hsl(270 90% 60% / 0.35), hsl(222 41% 10% / 0.9))",
+              boxShadow: "0 0 60px hsl(270 90% 60% / 0.35), inset 0 0 30px hsl(270 90% 60% / 0.2)",
             }}
-          />
-
-          {/* Ground shadow */}
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-40 h-4 bg-primary/40 blur-2xl rounded-full" />
+          >
+            <span className="mono text-2xl md:text-3xl font-bold gradient-text">KK</span>
+            <span className="absolute inset-0 rounded-full border border-primary/30 animate-ping" />
+          </div>
         </div>
 
         {/* Name */}
-        <div className="mt-6 text-center">
-          <div className="mono text-[10px] tracking-[0.5em] text-primary/70 mb-2">
-            {phase === "greeting" ? "· CONNECTION ESTABLISHED ·" : "· SYSTEM · READY ·"}
-          </div>
-          <h1
-            className="text-4xl sm:text-6xl font-black tracking-tight leading-none"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              background:
-                "linear-gradient(180deg, #ffffff 0%, hsl(270,90%,75%) 50%, hsl(310,90%,65%) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 30px hsl(var(--primary)/0.6))",
-            }}
-          >
-            KIRUTHIKA
-          </h1>
-          <div className="mt-2 mono text-[10px] sm:text-xs tracking-[0.4em] text-muted-foreground">
-            AI · DATA · DESIGN
-          </div>
-        </div>
+        <h1
+          className={`mt-8 md:mt-10 text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight transition-all duration-1000 ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+          style={{ transitionDelay: "200ms" }}
+        >
+          <span className="gradient-text">Kiruthika K</span>
+        </h1>
+        <p
+          className={`mono mt-4 text-[10px] sm:text-xs tracking-[0.45em] uppercase text-muted-foreground transition-all duration-1000 ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+          style={{ transitionDelay: "350ms" }}
+        >
+          Artificial Intelligence &amp; Data Science
+        </p>
 
-        {/* Bottom action zone */}
-        <div className="mt-8 h-24 flex items-center justify-center">
-          {phase === "idle" && (
-            <button
-              onClick={() => setPhase("booting")}
-              className="group relative inline-flex items-center gap-3 px-8 py-3.5 rounded-full border border-primary/50 bg-primary/10 backdrop-blur-md text-foreground font-semibold text-xs tracking-[0.4em] overflow-hidden transition-all duration-500 hover:bg-primary/20 hover:scale-105 hover:shadow-[0_0_60px_hsl(var(--primary))]"
+        {/* Keyword chips */}
+        <div className="mt-7 flex flex-wrap justify-center gap-2 max-w-lg">
+          {orbitWords.map((wd, i) => (
+            <span
+              key={wd}
+              className={`mono text-[9px] tracking-[0.28em] uppercase px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-foreground/80 transition-all duration-700 ${
+                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{ transitionDelay: `${500 + i * 110}ms` }}
             >
-              <span
-                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{ boxShadow: "inset 0 0 30px hsl(var(--primary)/0.4)" }}
-              />
-              <span className="relative z-10 w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_hsl(var(--primary))]" />
-              <span className="relative z-10">ACTIVATE</span>
-            </button>
-          )}
-
-          {phase === "booting" && (
-            <div className="w-80 space-y-3 animate-fade-in">
-              <div className="mono text-[10px] tracking-widest text-primary/80 space-y-0.5 h-10 overflow-hidden">
-                {BOOT_LINES.slice(0, lineIdx + 1).map((l, i) => (
-                  <div key={i} className={i === lineIdx ? "text-primary" : "text-muted-foreground"}>
-                    {l} <span className="text-emerald-400">[ok]</span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center justify-between mono text-[10px] tracking-widest text-primary/80">
-                <span>NEURAL LINK</span>
-                <span>{progress}%</span>
-              </div>
-              <div className="h-[3px] rounded-full bg-primary/10 overflow-hidden relative">
-                <div
-                  className="h-full bg-gradient-to-r from-primary via-[hsl(310,90%,65%)] to-primary transition-all duration-150"
-                  style={{
-                    width: `${progress}%`,
-                    backgroundSize: "200% 100%",
-                    animation: "gradient-shift 2s ease infinite",
-                  }}
-                >
-                  <span className="absolute right-0 top-0 h-full w-6 bg-white/70 blur-md" />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {phase === "greeting" && (
-            <div className="mono text-[10px] sm:text-xs tracking-[0.4em] text-primary/80 uppercase animate-fade-in">
-              — entering portfolio —
-            </div>
-          )}
+              {wd}
+            </span>
+          ))}
         </div>
-      </div>
 
-      <style>{`
-        @keyframes wave {
-          0%, 100% { transform: rotate(-10deg); }
-          50% { transform: rotate(25deg); }
-        }
-        @keyframes robot-bounce {
-          0%, 100% { transform: translateY(-4px) scale(1.05); }
-          50% { transform: translateY(-14px) scale(1.06); }
-        }
-      `}</style>
+        {/* Enter */}
+        <button
+          onClick={handleEnter}
+          className={`group mt-11 relative inline-flex items-center gap-3 px-9 py-4 rounded-full border border-primary/50 bg-primary/10 backdrop-blur-xl overflow-hidden transition-all duration-700 hover:scale-105 ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+          style={{ transitionDelay: "1050ms", boxShadow: "0 0 40px hsl(var(--primary) / 0.25)" }}
+        >
+          <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          <Sparkles size={15} className="text-primary relative" />
+          <span className="mono relative text-[11px] tracking-[0.4em] uppercase">Enter Portfolio</span>
+          <ArrowRight size={15} className="relative text-primary group-hover:translate-x-1 transition-transform" />
+        </button>
+      </div>
     </div>
   );
 }
