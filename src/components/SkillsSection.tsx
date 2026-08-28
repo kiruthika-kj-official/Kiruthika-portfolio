@@ -1,79 +1,71 @@
-import { useEffect, useRef, useState } from "react";
-import { Code2, Palette, Sparkles, Database, BarChart3, FileText, Figma, Image as ImageIcon, Braces, Cpu, Users, MessageSquare, Puzzle, Crown } from "lucide-react";
+import { Braces, BarChart3, Layers, Wrench, Sparkles, BrainCircuit } from "lucide-react";
 
-type Skill = { name: string; icon: any; level: number };
 type Group = {
-  key: string;
   title: string;
   tag: string;
   blurb: string;
   icon: any;
-  hue: string; // hsl hue
-  skills: Skill[];
+  hue: string;
+  items: string[];
+  wide?: boolean;
 };
 
 const groups: Group[] = [
   {
-    key: "code",
-    title: "Technical Stack",
-    tag: "Engineering",
-    blurb: "Building intelligent, data-driven systems end to end.",
-    icon: Code2,
+    title: "Programming Languages",
+    tag: "01 · Code",
+    blurb: "Core languages I build and query with every day.",
+    icon: Braces,
     hue: "270",
-    skills: [
-      { name: "Python", icon: Braces, level: 88 },
-      { name: "MERN Stack", icon: Code2, level: 80 },
-      { name: "MySQL", icon: Database, level: 82 },
-      { name: "Power BI", icon: BarChart3, level: 70 },
-      { name: "MS Office", icon: FileText, level: 90 },
-    ],
+    items: ["Python", "JavaScript (Basic)", "HTML", "CSS", "SQL"],
+    wide: true,
   },
   {
-    key: "design",
-    title: "Design Craft",
-    tag: "Visual",
-    blurb: "Turning ideas into elegant, human-centered interfaces.",
-    icon: Palette,
+    title: "AI & ML Concepts",
+    tag: "02 · Intelligence",
+    blurb: "Foundations of learning systems and evaluation.",
+    icon: BrainCircuit,
     hue: "310",
-    skills: [
-      { name: "Figma", icon: Figma, level: 92 },
-      { name: "Canva", icon: ImageIcon, level: 95 },
-      { name: "Photoshop", icon: ImageIcon, level: 72 },
-      { name: "Prototyping", icon: Cpu, level: 85 },
-    ],
+    items: ["Machine Learning Basics", "Model Evaluation", "Neural Networks", "Computer Vision", "NLP"],
   },
   {
-    key: "soft",
-    title: "Human Skills",
-    tag: "Mindset",
-    blurb: "The soft edges that make hard work land.",
+    title: "Data Analytics",
+    tag: "03 · Insight",
+    blurb: "Turning raw data into decisions and dashboards.",
+    icon: BarChart3,
+    hue: "220",
+    items: ["Pandas", "NumPy", "Excel", "Power BI"],
+  },
+  {
+    title: "Full Stack Development",
+    tag: "04 · Build",
+    blurb: "End-to-end web apps, trained through IBM SkillsBuild.",
+    icon: Layers,
+    hue: "270",
+    items: ["MongoDB", "Express.js", "React.js", "Node.js"],
+  },
+  {
+    title: "Tools & Platforms",
+    tag: "05 · Workflow",
+    blurb: "The everyday kit that keeps projects moving.",
+    icon: Wrench,
+    hue: "310",
+    items: ["Git", "GitHub", "VS Code", "Jupyter"],
+  },
+  {
+    title: "Soft Skills",
+    tag: "06 · Human",
+    blurb: "How I work with people, not just machines.",
     icon: Sparkles,
     hue: "220",
-    skills: [
-      { name: "Leadership", icon: Crown, level: 88 },
-      { name: "Communication", icon: MessageSquare, level: 90 },
-      { name: "Problem Solving", icon: Puzzle, level: 92 },
-      { name: "Teamwork", icon: Users, level: 94 },
-    ],
+    items: ["Teamwork", "Communication", "Problem Solving", "Leadership"],
+    wide: true,
   },
 ];
 
+const interests = ["Data Analytics", "Python Development", "Power BI"];
+
 export default function SkillsSection() {
-  const [active, setActive] = useState<string>("code");
-  const [visible, setVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      ([e]) => e.isIntersecting && setVisible(true),
-      { threshold: 0.2 }
-    );
-    if (ref.current) io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
-
-  const current = groups.find((g) => g.key === active)!;
-
   return (
     <section id="skills" className="section-padding relative overflow-hidden">
       {/* Ambient */}
@@ -86,12 +78,9 @@ export default function SkillsSection() {
           maskImage: "radial-gradient(ellipse at center, black, transparent 75%)",
         }}
       />
-      <div
-        className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full blur-[140px] opacity-30 transition-colors duration-700"
-        style={{ background: `hsl(${current.hue} 90% 55% / 0.25)` }}
-      />
+      <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full blur-[140px] bg-primary/20" />
 
-      <div ref={ref} className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="flex items-center gap-3 mb-4 scroll-reveal">
           <span className="w-10 h-px bg-primary" />
@@ -105,141 +94,85 @@ export default function SkillsSection() {
             <br /> a whole practice.
           </h2>
           <p className="text-muted-foreground text-sm max-w-xs">
-            A fluid stack of engineering, design and communication — used together, not in silos.
+            AI &amp; Data Science foundations, full-stack engineering and analytics — used together, not in silos.
           </p>
         </div>
 
-        {/* Tab pills */}
-        <div className="flex flex-wrap gap-2 mb-8 scroll-reveal" style={{ transitionDelay: "160ms" }}>
-          {groups.map((g) => {
-            const isActive = g.key === active;
-            return (
-              <button
-                key={g.key}
-                onClick={() => setActive(g.key)}
-                className={`group relative flex items-center gap-2 px-5 py-2.5 rounded-full border text-sm font-medium transition-all duration-500 ${
-                  isActive
-                    ? "border-primary/60 text-foreground bg-primary/10 shadow-[0_0_30px_hsl(var(--primary)/0.25)]"
-                    : "border-glass-border text-muted-foreground hover:text-foreground hover:border-primary/40"
-                }`}
-              >
-                <g.icon size={14} className={isActive ? "text-primary" : ""} />
-                {g.title}
-                <span className={`mono text-[9px] tracking-widest ${isActive ? "text-primary/80" : "text-muted-foreground/60"}`}>
-                  {String(g.skills.length).padStart(2, "0")}
-                </span>
-              </button>
-            );
-          })}
+        {/* Area of interest strip */}
+        <div className="flex flex-wrap items-center gap-3 mb-10 scroll-reveal" style={{ transitionDelay: "140ms" }}>
+          <span className="mono text-[10px] tracking-[0.35em] uppercase text-muted-foreground">
+            Area of interest
+          </span>
+          {interests.map((it) => (
+            <span
+              key={it}
+              className="text-xs px-3 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-foreground/90"
+            >
+              {it}
+            </span>
+          ))}
         </div>
 
-        {/* Panel */}
-        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-6">
-          {/* Left: narrative */}
-          <div
-            key={current.key + "-l"}
-            className="relative rounded-3xl overflow-hidden border border-glass-border bg-card/50 backdrop-blur-xl p-8 md:p-10 animate-fade-in"
-          >
-            <div
-              className="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl opacity-40"
-              style={{ background: `hsl(${current.hue} 90% 60% / 0.4)` }}
-            />
-            <div className="relative">
-              <div className="mono text-[10px] tracking-[0.4em] uppercase text-primary/70 mb-6">
-                — {current.tag}
-              </div>
-              <div className="flex items-center gap-4 mb-6">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center border"
-                  style={{
-                    background: `linear-gradient(135deg, hsl(${current.hue} 90% 55% / 0.25), hsl(${current.hue} 90% 55% / 0.05))`,
-                    borderColor: `hsl(${current.hue} 90% 55% / 0.4)`,
-                  }}
-                >
-                  <current.icon size={24} className="text-foreground" />
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold tracking-tight">{current.title}</h3>
-              </div>
-              <p className="text-muted-foreground leading-relaxed max-w-md mb-8">
-                {current.blurb}
-              </p>
+        {/* Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {groups.map((g, i) => (
+            <article
+              key={g.title}
+              className={`group relative rounded-3xl border border-glass-border bg-card/50 backdrop-blur-xl p-7 overflow-hidden hover-lift scroll-reveal ${
+                g.wide ? "lg:col-span-2" : ""
+              }`}
+              style={{ transitionDelay: `${180 + i * 90}ms` }}
+            >
+              {/* Glow */}
+              <div
+                className="absolute -top-24 -right-24 w-64 h-64 rounded-full blur-3xl opacity-30 group-hover:opacity-70 transition-opacity duration-700"
+                style={{ background: `hsl(${g.hue} 90% 60% / 0.45)` }}
+              />
+              {/* Sweep line */}
+              <div
+                className="absolute left-0 right-0 top-0 h-px opacity-40 group-hover:opacity-100 transition-opacity"
+                style={{ background: `linear-gradient(90deg, transparent, hsl(${g.hue} 90% 65%), transparent)` }}
+              />
 
-              {/* Big proficiency ring */}
-              <div className="flex items-center gap-6">
-                <div className="relative w-28 h-28">
-                  <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="42" strokeWidth="6" fill="none" className="stroke-primary/10" />
-                    <circle
-                      cx="50" cy="50" r="42"
-                      strokeWidth="6" fill="none"
-                      strokeLinecap="round"
-                      style={{
-                        stroke: `hsl(${current.hue} 90% 60%)`,
-                        strokeDasharray: 2 * Math.PI * 42,
-                        strokeDashoffset:
-                          2 * Math.PI * 42 *
-                          (1 - (current.skills.reduce((a, s) => a + s.level, 0) / current.skills.length) / 100),
-                        transition: "stroke-dashoffset 1s ease-out",
-                        filter: `drop-shadow(0 0 8px hsl(${current.hue} 90% 60% / 0.6))`,
-                      }}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-2xl font-bold">
-                      {Math.round(current.skills.reduce((a, s) => a + s.level, 0) / current.skills.length)}
-                    </span>
-                    <span className="mono text-[9px] tracking-widest text-muted-foreground">AVG %</span>
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6"
+                    style={{
+                      background: `linear-gradient(135deg, hsl(${g.hue} 90% 55% / 0.25), hsl(${g.hue} 90% 55% / 0.05))`,
+                      borderColor: `hsl(${g.hue} 90% 55% / 0.4)`,
+                    }}
+                  >
+                    <g.icon size={20} style={{ color: `hsl(${g.hue} 90% 72%)` }} />
                   </div>
+                  <span
+                    className="mono text-[9px] tracking-[0.35em] uppercase"
+                    style={{ color: `hsl(${g.hue} 90% 72%)` }}
+                  >
+                    {g.tag}
+                  </span>
                 </div>
-                <div className="text-sm text-muted-foreground max-w-[180px]">
-                  Across {current.skills.length} focus areas — measured by hours, shipped work, and real projects.
-                </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Right: skill bars */}
-          <div
-            key={current.key + "-r"}
-            className="rounded-3xl border border-glass-border bg-card/50 backdrop-blur-xl p-8 md:p-10 animate-fade-in"
-          >
-            <ul className="space-y-6">
-              {current.skills.map((s, i) => (
-                <li key={s.name} className="group">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
-                      <span
-                        className="w-8 h-8 rounded-lg flex items-center justify-center border"
-                        style={{
-                          background: `hsl(${current.hue} 90% 55% / 0.12)`,
-                          borderColor: `hsl(${current.hue} 90% 55% / 0.3)`,
-                        }}
-                      >
-                        <s.icon size={14} style={{ color: `hsl(${current.hue} 90% 70%)` }} />
-                      </span>
-                      <span className="text-sm font-medium">{s.name}</span>
-                    </div>
-                    <span className="mono text-[11px] text-muted-foreground group-hover:text-primary transition-colors">
-                      {s.level}%
-                    </span>
-                  </div>
-                  <div className="h-[6px] rounded-full bg-primary/5 overflow-hidden relative">
-                    <div
-                      className="h-full rounded-full relative"
+                <h3 className="text-xl font-semibold tracking-tight mb-2">{g.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">{g.blurb}</p>
+
+                <ul className="flex flex-wrap gap-2">
+                  {g.items.map((item, j) => (
+                    <li
+                      key={item}
+                      className="text-xs px-3 py-1.5 rounded-full border bg-background/40 text-foreground/85 transition-all duration-300 hover:-translate-y-0.5"
                       style={{
-                        width: visible ? `${s.level}%` : "0%",
-                        background: `linear-gradient(90deg, hsl(${current.hue} 90% 45%), hsl(${current.hue} 90% 65%))`,
-                        boxShadow: `0 0 12px hsl(${current.hue} 90% 60% / 0.6)`,
-                        transition: `width 1.1s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
+                        borderColor: `hsl(${g.hue} 90% 55% / 0.3)`,
+                        transitionDelay: `${j * 40}ms`,
                       }}
                     >
-                      <span className="absolute right-0 top-0 bottom-0 w-8 bg-white/40 blur-md" />
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
