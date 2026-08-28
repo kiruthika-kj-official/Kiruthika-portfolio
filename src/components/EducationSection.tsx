@@ -2,26 +2,26 @@ import { GraduationCap, Trophy, Briefcase, Calendar } from "lucide-react";
 
 const timeline = [
   {
-    year: "2023 – Present",
-    title: "B.Tech – Artificial Intelligence and Data Science",
+    year: "Sept 2023 – May 2027",
+    title: "B.Tech – Artificial Intelligence & Data Science",
     institution: "Chettinad College of Engineering & Technology, Karur",
-    description: "CGPA: 8.1 (Up to 5th Semester)",
+    description: "CGPA: 8.0",
   },
   {
-    year: "2022 – 2023",
+    year: "June 2022 – May 2023",
     title: "Higher Secondary Education (12th)",
     institution: "Government Higher Secondary School, Kattuputhur",
-    description: "12th: 80% | 11th: 75%",
+    description: "Higher Secondary — 81%",
   },
 ];
 
 const achievements = [
-  "Participated in PPT Presentation at Ramakrishna Engineering College.",
+  "Presented a technical project at Kongu Engineering College, Erode.",
   "Participated in Project Presentation at KSR College of Engineering & Technology.",
-  "Presented a Project Explanation at Kongu Engineering College, Erode.",
-  "Won Multiple Essay Competitions.",
-  "NPTEL Completed — Neural Networks for Computer Vision (Elite + Silver).",
+  "Presented a PPT at Ramakrishna Engineering College.",
+  "Participated in the 24-Hour National Level Hackathon (HackXtreme'26) at K. Ramakrishnan College of Engineering, Trichy.",
 ];
+
 
 export default function EducationSection() {
   return (
