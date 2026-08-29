@@ -1,8 +1,10 @@
 import { Award, BadgeCheck, ExternalLink, Calendar, Code2, Trophy } from "lucide-react";
-import ibmCert from "@/assets/IBM_certificate.pdf.asset.json";
-import nptelCert from "@/assets/neural_networks_nptel_certificate.pdf.asset.json";
-import pythonCert from "@/assets/python_basic_certificate.pdf.asset.json";
-import hackathonCert from "@/assets/24_hour_hackthon_certificate.jpeg.asset.json";
+
+const ibmCert = { url: "/certificates/IBM_certificate.pdf" };
+const nptelCert = { url: "/certificates/neural_networks_nptel_certificate.pdf" };
+const pythonCert = { url: "/certificates/python_basic_certificate.pdf" };
+const hackathonCert = { url: "/certificates/24_hour_hackthon_certificate.jpeg" };
+
 
 type Cert = {
   title: string;

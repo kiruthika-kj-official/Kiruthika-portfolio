@@ -65,6 +65,23 @@ const groups: Group[] = [
 
 const interests = ["Data Analytics", "Python Development", "Power BI"];
 
+const marqueeItems = [
+  "Python",
+  "React.js",
+  "Node.js",
+  "MongoDB",
+  "Express.js",
+  "MySQL",
+  "Pandas",
+  "NumPy",
+  "Power BI",
+  "Git",
+  "GitHub",
+  "VS Code",
+  "Jupyter",
+];
+
+
 export default function SkillsSection() {
   return (
     <section id="skills" className="section-padding relative overflow-hidden">
@@ -133,18 +150,22 @@ export default function SkillsSection() {
                 className="absolute left-0 right-0 top-0 h-px opacity-40 group-hover:opacity-100 transition-opacity"
                 style={{ background: `linear-gradient(90deg, transparent, hsl(${g.hue} 90% 65%), transparent)` }}
               />
+              {/* Shimmer sweep on hover */}
+              <span className="absolute inset-y-0 -left-1/3 w-1/3 skew-x-12 bg-gradient-to-r from-transparent via-primary/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer pointer-events-none" />
 
               <div className="relative">
                 <div className="flex items-center justify-between mb-6">
                   <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6"
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 animate-float-soft"
                     style={{
                       background: `linear-gradient(135deg, hsl(${g.hue} 90% 55% / 0.25), hsl(${g.hue} 90% 55% / 0.05))`,
                       borderColor: `hsl(${g.hue} 90% 55% / 0.4)`,
+                      animationDelay: `${i * 0.4}s`,
                     }}
                   >
                     <g.icon size={20} style={{ color: `hsl(${g.hue} 90% 72%)` }} />
                   </div>
+
                   <span
                     className="mono text-[9px] tracking-[0.35em] uppercase"
                     style={{ color: `hsl(${g.hue} 90% 72%)` }}
@@ -174,7 +195,25 @@ export default function SkillsSection() {
             </article>
           ))}
         </div>
+
+        {/* Tools marquee */}
+        <div className="mt-12 relative overflow-hidden rounded-2xl border border-glass-border bg-card/30 backdrop-blur-xl py-4 scroll-reveal">
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
+          <div className="flex w-max animate-marquee gap-10">
+            {[...marqueeItems, ...marqueeItems].map((m, i) => (
+              <span
+                key={`${m}-${i}`}
+                className="mono text-xs tracking-[0.3em] uppercase text-muted-foreground/80 whitespace-nowrap flex items-center gap-10"
+              >
+                {m}
+                <span className="w-1 h-1 rounded-full bg-primary/60" />
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
+
     </section>
   );
 }
