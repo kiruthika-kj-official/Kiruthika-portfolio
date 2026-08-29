@@ -178,7 +178,25 @@ export default function SkillsSection() {
             </article>
           ))}
         </div>
+
+        {/* Tools marquee */}
+        <div className="mt-12 relative overflow-hidden rounded-2xl border border-glass-border bg-card/30 backdrop-blur-xl py-4 scroll-reveal">
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
+          <div className="flex w-max animate-marquee gap-10">
+            {[...marqueeItems, ...marqueeItems].map((m, i) => (
+              <span
+                key={`${m}-${i}`}
+                className="mono text-xs tracking-[0.3em] uppercase text-muted-foreground/80 whitespace-nowrap flex items-center gap-10"
+              >
+                {m}
+                <span className="w-1 h-1 rounded-full bg-primary/60" />
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
+
     </section>
   );
 }
