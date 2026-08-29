@@ -65,6 +65,23 @@ const groups: Group[] = [
 
 const interests = ["Data Analytics", "Python Development", "Power BI"];
 
+const marqueeItems = [
+  "Python",
+  "React.js",
+  "Node.js",
+  "MongoDB",
+  "Express.js",
+  "MySQL",
+  "Pandas",
+  "NumPy",
+  "Power BI",
+  "Git",
+  "GitHub",
+  "VS Code",
+  "Jupyter",
+];
+
+
 export default function SkillsSection() {
   return (
     <section id="skills" className="section-padding relative overflow-hidden">
