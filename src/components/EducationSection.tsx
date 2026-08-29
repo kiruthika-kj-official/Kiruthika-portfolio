@@ -85,25 +85,50 @@ export default function EducationSection() {
           </div>
         </div>
 
-        {/* Achievements */}
+        {/* Achievements — vertical animated timeline */}
         <h2 className="text-3xl md:text-4xl font-bold mb-4 scroll-reveal">
           <span className="glow-text">Achievements</span>
         </h2>
-        <div className="w-16 h-1 rounded-full bg-primary mb-8 scroll-reveal" style={{ transitionDelay: "80ms" }} />
-        <div className="grid sm:grid-cols-2 gap-4">
-          {achievements.map((item, i) => (
-            <div
-              key={i}
-              className="glass-card p-5 flex items-start gap-3 scroll-reveal hover-lift group"
-              style={{ transitionDelay: `${120 + i * 80}ms` }}
-            >
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                <Trophy size={14} className="text-primary" />
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">{item}</p>
-            </div>
-          ))}
+        <div className="w-16 h-1 rounded-full bg-primary mb-10 scroll-reveal" style={{ transitionDelay: "80ms" }} />
+
+        <div className="relative pl-10 md:pl-14">
+          {/* Animated rail */}
+          <div className="absolute left-3 md:left-5 top-2 bottom-2 w-[2px] overflow-hidden rounded-full">
+            <div className="w-full h-full bg-gradient-to-b from-primary via-primary/40 to-transparent animate-grow-line" />
+            <span className="absolute left-1/2 -translate-x-1/2 w-1.5 h-8 rounded-full bg-primary blur-[2px] animate-trail-down" />
+          </div>
+
+          <ul className="space-y-6">
+            {achievements.map((item, i) => (
+              <li
+                key={i}
+                className="relative group scroll-reveal-left"
+                style={{ transitionDelay: `${140 + i * 140}ms` }}
+              >
+                {/* Node */}
+                <span className="absolute -left-[30px] md:-left-[42px] top-5 w-4 h-4 rounded-full border-2 border-primary bg-background flex items-center justify-center transition-transform duration-500 group-hover:scale-125">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary))]" />
+                </span>
+                {/* Connector */}
+                <span className="absolute -left-[16px] md:-left-[28px] top-[26px] w-4 md:w-6 h-px bg-gradient-to-r from-primary/60 to-transparent" />
+
+                <div className="relative glass-card p-5 overflow-hidden hover-lift flex items-start gap-3">
+                  <span className="absolute inset-y-0 -left-1/3 w-1/3 skew-x-12 bg-gradient-to-r from-transparent via-primary/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer" />
+                  <div className="relative w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 transition-all duration-500 group-hover:bg-primary/20 group-hover:rotate-6">
+                    <Trophy size={15} className="text-primary" />
+                  </div>
+                  <div className="relative">
+                    <span className="mono text-[9px] tracking-[0.35em] uppercase text-primary/70">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-1">{item}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
+
       </div>
     </section>
   );
