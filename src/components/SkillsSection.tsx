@@ -133,18 +133,22 @@ export default function SkillsSection() {
                 className="absolute left-0 right-0 top-0 h-px opacity-40 group-hover:opacity-100 transition-opacity"
                 style={{ background: `linear-gradient(90deg, transparent, hsl(${g.hue} 90% 65%), transparent)` }}
               />
+              {/* Shimmer sweep on hover */}
+              <span className="absolute inset-y-0 -left-1/3 w-1/3 skew-x-12 bg-gradient-to-r from-transparent via-primary/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer pointer-events-none" />
 
               <div className="relative">
                 <div className="flex items-center justify-between mb-6">
                   <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6"
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 animate-float-soft"
                     style={{
                       background: `linear-gradient(135deg, hsl(${g.hue} 90% 55% / 0.25), hsl(${g.hue} 90% 55% / 0.05))`,
                       borderColor: `hsl(${g.hue} 90% 55% / 0.4)`,
+                      animationDelay: `${i * 0.4}s`,
                     }}
                   >
                     <g.icon size={20} style={{ color: `hsl(${g.hue} 90% 72%)` }} />
                   </div>
+
                   <span
                     className="mono text-[9px] tracking-[0.35em] uppercase"
                     style={{ color: `hsl(${g.hue} 90% 72%)` }}
