@@ -138,4 +138,52 @@
   .mono {
     font-family: 'JetBrains Mono', monospace;
   }
+
+  /* Vertical timeline line grow */
+  @keyframes grow-line {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+  .animate-grow-line {
+    transform-origin: top;
+    animation: grow-line 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Travelling light along a line */
+  @keyframes trail-down {
+    0% { top: -10%; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: 105%; opacity: 0; }
+  }
+  .animate-trail-down {
+    animation: trail-down 3.4s ease-in-out infinite;
+  }
+
+  /* Shimmer sweep for skill chips / cards */
+  @keyframes shimmer-sweep {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(220%); }
+  }
+  .animate-shimmer {
+    animation: shimmer-sweep 2.8s ease-in-out infinite;
+  }
+
+  /* Gentle float */
+  @keyframes float-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .animate-float-soft {
+    animation: float-soft 6s ease-in-out infinite;
+  }
+
+  @keyframes marquee-x {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee-x 26s linear infinite;
+  }
 }
+
